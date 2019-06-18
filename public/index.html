@@ -10,17 +10,19 @@
 </head>
 <body>
   <div id="app">
-    <span>Convert</span>
-    <input type="number" v-model="baseInput" min="0">
-    <select v-model="base">
-      <option v-for="(value, key) in rates"> {{ key }} </option>
-    </select>
-    <span><a v-on:click="swapCurrencies"><==></a></span>
-    <select v-model="selectedCurrency">
-      <option v-for="(value, key) in rates"> {{ key }} </option>
-    </select>
-    <br>
-    <output name="result" v-if="rates && selectedCurrency">{{ converted }}</output>
+    <form id="currencyForm">
+      <span>Convert</span>
+      <input type="number" v-model="baseInput" min="0">
+      <select v-model="base" @change="updateCurrencies">
+        <option v-for="(value, key) in rates"> {{ key }} </option>
+      </select>
+      <span><a v-on:click="swapCurrencies"><==></a></span>
+      <select v-model="selectedCurrency" @change="updateCurrencies">
+        <option v-for="(value, key) in rates"> {{ key }} </option>
+      </select>
+      <br>
+      <output for="currencyForm" v-if="baseInput !== 0">{{ converted }}</output>
+    </form>
   </div>
 </body>
 </html>
