@@ -9,6 +9,12 @@
   <title>Currency Converter</title>
 </head>
 <body>
-
+  <div id="app">
+    <input type="number" v-model="baseInput">
+    <select v-model="selectedCurrency">
+      <option v-for="(value, key) in rates"> {{ key }} </option>
+    </select>
+    <output name="result" v-if="rates && selectedCurrency">{{ converted }}</output>
+  </div>
 </body>
 </html>
