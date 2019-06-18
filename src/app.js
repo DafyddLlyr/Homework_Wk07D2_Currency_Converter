@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el: "#app",
     data: {
       rates: null,
-      base: null,
+      base: "EUR",
       baseInput: 0,
       selectedCurrency: null
     },
@@ -23,6 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const request = fetch('https://api.exchangeratesapi.io/latest')
         .then(response => response.json())
         .then(data => { this.rates = data.rates; this.base = data.base });
+      },
+      swapCurrencies: function() {
+        if (this.selectedCurrency && this.base) {
+          [this.selectedCurrency, this.base] = [this.base, this.selectedCurrency]
+        }
       }
     }
   })

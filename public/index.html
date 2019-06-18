@@ -10,10 +10,16 @@
 </head>
 <body>
   <div id="app">
-    <input type="number" v-model="baseInput">
+    <span>Convert</span>
+    <input type="number" v-model="baseInput" min="0">
+    <select v-model="base">
+      <option v-for="(value, key) in rates"> {{ key }} </option>
+    </select>
+    <span><a v-on:click="swapCurrencies"><==></a></span>
     <select v-model="selectedCurrency">
       <option v-for="(value, key) in rates"> {{ key }} </option>
     </select>
+    <br>
     <output name="result" v-if="rates && selectedCurrency">{{ converted }}</output>
   </div>
 </body>
