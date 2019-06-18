@@ -7,16 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
       rates: null,
       base: "GBP",
       baseInput: 0,
-      selectedCurrency: "EUR"
+      selectedCurrency: "EUR",
+      allCountries: null,
+      currencySymbol: null
     },
     computed: {
       converted: function() {
         const result = this.baseInput * this.rates[this.selectedCurrency];
-        return result.toFixed(2);
-      }
+        return this.currencySymbol + result.toFixed(2);
+      },
+
     },
     mounted() {
-      this.fetchCurrencyData()
+      this.fetchCurrencyData();
+      this.fetchAllCountries();
     },
     methods: {
       fetchCurrencyData: function() {
@@ -32,10 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (this.selectedCurrency && this.base) {
           [this.selectedCurrency, this.base] = [this.base, this.selectedCurrency];
         this.fetchCurrencyData();
+        this.fetchCurrencySymbol();
         }
       },
       updateCurrencies: function() {
         this.fetchCurrencyData();
+        this.fetchCurrencySymbol();
+      },
+      fetchAllCountries: function() {
+        let request = fetch('https://restcountries.eu/rest/v2/all')
+        .then(response => response.json())
+        .then(data => { this.allCountries = data; this.fetchCurrencySymbol() })
+      },
+      fetchCurrencySymbol: function() {
+        const result = this.allCountries.filter(country => country.currencies[0].code === this.selectedCurrency);
+        this.currencySymbol = result[0].currencies[0].symbol.toUpperCase();
       }
     }
   })
