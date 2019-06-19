@@ -26,11 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchCurrencyData: function() {
         const request = fetch(`https://api.exchangeratesapi.io/latest?base=${this.base}`)
         .then(response => response.json())
-        .then(data => { this.rates = data.rates; this.base = data.base })
-        // if (this.base == "EUR") {
-        //   console.log('euro selected');
-        //   Object.assign(this.rates, { "EUR": 1})
-        // }
+        .then(data => {
+          this.rates = data.rates;
+          if (data.base === "EUR") { this.rates["EUR"] = 1 };
+          this.base = data.base;
+        })
       },
       swapCurrencies: function() {
         if (this.selectedCurrency && this.base) {
